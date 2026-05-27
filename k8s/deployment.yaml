@@ -1,0 +1,90 @@
+# -------------------
+# 1. Backend Service
+# -------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service # 중요: Frontend Nginx가 이 이름을 사용해 통신함
+spec:
+  selector:
+    app: tusi-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP # 내부 통신용
+
+---
+# -------------------
+# 2. Backend Deployment
+# -------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tusi-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tusi-backend
+  template:
+    metadata:
+      labels:
+        app: tusi-backend
+    spec:
+      containers:
+      - name: backend-container
+        # [주의] 본인의 Docker Hub ID로 변경해야 함 (예: yourid/tusi-backend:v1)
+        image: 00gavriel/tusi-backend:v1.1
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+---
+# -------------------
+# 3. Frontend Service
+# -------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: tusi-frontend
+  ports:
+    - protocol: TCP
+      port: 80 # 외부 접속 포트
+      targetPort: 80
+  type: LoadBalancer # 또는 NodePort (환경에 따라 선택)
+
+---
+# -------------------
+# 4. Frontend Deployment
+# -------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tusi-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tusi-frontend
+  template:
+    metadata:
+      labels:
+        app: tusi-frontend
+    spec:
+      containers:
+      - name: frontend-container
+        # [주의] 본인의 Docker Hub ID로 변경해야 함 (예: yourid/tusi-frontend:v1)
+        image: 00gavriel/tusi-frontend:v1.2
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"

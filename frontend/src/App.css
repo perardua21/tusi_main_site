@@ -1,0 +1,403 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap");
+
+/* ===== 전역 초기화 및 레이아웃 잡기 ===== */
+* {
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+}
+
+/* React Root가 화면을 꽉 채우게 설정 */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  margin: 0;
+  background: black;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== 스타 배경 ===== */
+.stars,
+.twinkling {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: block;
+  z-index: -2;
+}
+
+.stars {
+  background: url("https://i.imgur.com/YKY28eT.png") repeat;
+}
+
+.twinkling {
+  background: url("https://i.imgur.com/8g4YjN7.png") repeat;
+  animation: moveTwinkling 20s linear infinite;
+}
+
+@keyframes moveTwinkling {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+/* ===== Intro 화면 ===== */
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-line {
+  width: 0%;
+  height: 2px;
+  background: white;
+  animation: lineGrow 1.4s ease-out forwards;
+}
+
+@keyframes lineGrow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 60%;
+  }
+}
+
+.intro-text-fade {
+  margin-top: 20px;
+  opacity: 0;
+  font-size: 48px;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 4px;
+  animation: fadeIn 1s ease-out 1.2s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== Main Container ===== */
+.app-container {
+  width: 100%;
+  display: flex;        /* 세로 정렬을 위해 Flex 사용 */
+  flex-direction: column;
+  align-items: center;  /* 내부 섹션들을 가로 중앙 정렬 */
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.app-container.visible {
+  opacity: 1;
+}
+
+.app-container.hidden {
+  opacity: 0;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  width: 100%;
+  padding: 15px 0;
+  position: fixed;
+  top: 0;
+  left: 0; /* 왼쪽 고정 */
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center; /* 네비게이션 컨텐츠 중앙 정렬 */
+}
+
+.nav-content {
+  width: 100%;
+  max-width: 1100px; /* 컨텐츠 최대 너비 제한 */
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.nav-logo {
+  font-size: 26px;
+  color: white;
+  text-decoration: none;
+  font-family: "Orbitron", sans-serif;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+  transition: 0.2s;
+}
+
+.nav-links a:hover {
+  color: #00c6ff;
+}
+
+/* ===== Hero Section ===== */
+.hero-section {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 120px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 중앙 정렬 */
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 1100px; /* 다른 섹션과 너비 맞춤 */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-image-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.logo-img {
+  width: 240px;
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: 64px;
+  font-family: "Orbitron", sans-serif;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  opacity: 0.8;
+  margin-top: -8px;
+}
+
+.hero-desc {
+  margin-top: 10px;
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+/* 타이핑 애니메이션 */
+.slogan-container {
+  font-size: 22px;
+  margin-top: 20px;
+  height: 32px;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 방문자 수 */
+.visitor-badge {
+  margin-top: 25px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 25px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+}
+
+.visitor-badge .label {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.visitor-badge .count {
+  font-size: 20px;
+  margin-top: 4px;
+}
+
+/* ===== Section 공통 ===== */
+.content-section {
+  width: 100%;
+  padding: 80px 20px;
+  max-width: 1100px; /* 컨텐츠 최대 너비 */
+  margin: 0 auto;    /* 중앙 정렬 */
+}
+
+.section-title {
+  font-size: 32px;
+  text-align: center;
+  font-family: "Orbitron", sans-serif;
+  margin-bottom: 40px;
+}
+
+/* 카드 공통 */
+.card {
+  border-radius: 16px;
+  padding: 30px;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* 소개 카드 */
+.intro-card p {
+  line-height: 1.8;
+  font-size: 17px;
+}
+
+/* 활동 Grid */
+.grid-container {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* ===== Awards ===== */
+.full-width {
+  width: 100%;
+}
+
+.awards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.award-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.award-date {
+  font-size: 15px;
+  width: 110px;
+  opacity: 0.8;
+  flex-shrink: 0; /* 날짜 줄바꿈 방지 */
+}
+
+.award-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.award-name {
+  font-weight: 600;
+}
+
+.award-prize {
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+/* ===== Contact & Map ===== */
+.map-card {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.contact-info h3 {
+  margin-top: 0;
+}
+
+.contact-links {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* pill 스타일 수정: a태그 호환 */
+.contact-pill {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  
+  color: white;
+  text-decoration: none; /* 밑줄 제거 */
+  display: inline-flex;  /* Flex로 정렬 */
+  align-items: center;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.contact-pill:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.map-wrapper iframe {
+  border-radius: 10px;
+}
+
+.address-text {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* ===== Footer ===== */
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 40px;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 800px) {
+  .hero-title {
+    font-size: 48px;
+  }
+  .logo-img {
+    width: 180px;
+  }
+  .map-card {
+    grid-template-columns: 1fr;
+  }
+}
